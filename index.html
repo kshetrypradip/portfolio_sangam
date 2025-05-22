@@ -1,0 +1,245 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png"  href="images/main2.jpg">
+    <title>Sangam Thapa - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dark-theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Lato:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">Sangam Thapa</div>
+        <ul class="nav-links">
+            <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
+            <li><a href="#academics"><i class="fas fa-graduation-cap"></i> Academics</a></li>
+            <li><a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            <li><a href="#research"><i class="fas fa-flask"></i> Research</a></li>
+            <li><a href="#skills"><i class="fas fa-tools"></i> Skills</a></li>
+            <li><a href="#testimonials"><i class="fas fa-quote-left"></i> Testimonials</a></li>
+            <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><a href="#resume" class="resume-btn"><i class="fas fa-file-alt"></i> Resume</a></li>
+        </ul>
+        <button class="theme-toggle">🌙</button>
+    </nav>
+
+    <main>
+        <section id="home">
+            <div class="hero-content">
+                <h1>Namaste, I'm Sangam Thapa</h1>
+                <p style="text-align: center;">Civil Engineer | Structural Designer | Graphics Designer</p>
+                <img src="images/main2.jpg" alt="Sangam Thapa" class="profile-image">
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p>I am a dedicated fourth-year Civil Engineering student with a strong foundation in core engineering principles and hands-on experience. With a passion for building sustainable and efficient systems, I bring a blend of technical knowledge, creativity, and problem-solving skills to every project.</p>
+                <p>I am proficient in engineering software such as AutoCAD, Civil 3D, and ETABS, and I am committed to ensuring structural stability, environmental responsibility, and adherence to safety standards. Whether working independently or as part of a multidisciplinary team, I take pride in delivering high-quality results that meet both client expectations and community needs.</p>
+                <p>Outside of my academic career, I enjoy playing football, trekking, photography, and spending time with friends and family.</p>
+            </div>
+        </section>
+
+        <section id="academics">
+            <h2>Academics</h2>
+            <div class="academics-container">
+                <div class="academic-card">
+                    <div class="academic-icon">📚</div>
+                    <h3>Academic Background</h3>
+                    <p>Currently enrolled in the final year of the Bachelor of Engineering in Civil Engineering program at Pokhara University. Throughout my academic career, I have consistently maintained a strong academic record while actively engaging in practical projects, technical workshops, and interdisciplinary learning. My education has provided me with a solid foundation in engineering principles, problem-solving, and a deep understanding of the built environment.</p>
+                </div>
+                <div class="academic-card">
+                    <div class="academic-icon">🔬</div>
+                    <h3>Research & Innovation Focus</h3>
+                    <p>My academic interests lie in developing sustainable and resilient infrastructure. I am particularly focused on innovative solutions such as smart construction materials, energy-efficient building systems, and advanced monitoring techniques. I also explore how emerging technologies like AI and IoT can be integrated into civil engineering to enhance safety, efficiency, and sustainability in construction practices.</p>
+                </div>
+                <div class="academic-card">
+                    <div class="academic-icon">🏗️</div>
+                    <h3>Construction Techniques & Project Management</h3>
+                    <p>I have gained practical experience in modern construction techniques and have developed a solid understanding of project management processes in civil engineering. I am adept at overseeing the execution of construction projects, ensuring quality, safety, and adherence to timelines, while also incorporating sustainable practices to minimize environmental impact.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="project-container">
+                <div class="project-card">
+                    <img src="images/photo.jpg" alt="Sunkoshi Marin Diversion Multipurpose Project">
+                    <h3>Sunkoshi Marin Diversion Multipurpose Project (SMDMP)</h3>
+                    <p>Sunkoshi Marin Diversion Multipurpose Project (SMDMP) is one of the National Pride Project being developed by Ministry of Energy, Water Resources and Irrigation (Nepal). The project got the status of National Pride Project on 20 January 2020. The project is an inter-basin water transfer project aimed to transfer water from the Sunkoshi River to the Marin river, a tributary of the Bagmati River. The flow will be augumented to the Bagmati Irrigation System to irrigate an additional 122,000 ha of land in Rautahat, Dhanusha, Mahottari, Sarlahi, and Bara.</p>
+                    <a href="#" class="see-more">Read More</a>
+                </div>
+                <div class="project-card">
+                    <img src="images/survey camp1.jpeg" alt="Survey Camp">
+                    <h3>Survey Camp</h3>
+                    <p>The 10-day survey camp was a valuable learning experience that strengthened our practical skills in surveying techniques like leveling, compass, plane table surveying, topographical survey, road alightment and bridge site investigations by using modern equipment like Total Station, GPS and others. It helped us apply theoretical knowledge in the field, work effectively in teams, and handle real-world challenges. This camp has greatly enhanced our confidence and preparedness for future engineering tasks.</p>
+                    <a href="#" class="see-more">Read More</a>
+                </div>
+                <div class="project-card">
+                    <img src="images/hydro.jpg" alt="Hydropower Project">
+                    <h3>Hydropower Project</h3>
+                    <p>The small-scale model of a hydropower project successfully illustrates the core components and working principles of hydroelectric power generation, including water flow, turbine operation, and energy conversion. This model serves as an effective educational tool, offering hands-on insight into sustainable energy solutions. It also helps in understanding the design, construction, and environmental considerations involved in real-world hydropower projects—making it a valuable addition to our civil engineering knowledge and practice.</p>
+                    <a href="#" class="see-more">Read More</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="research">
+            <h2>Research</h2>
+            <div class="research-container">
+                <div class="research-card">
+                    <img src="images/coming-soon.jpg" alt="Climate-Resilient Road Design">
+                    <h3 align="center">Assessment of Climate-Resilient Road Design in Hilly Regions of Nepal</h3>
+                    <p>This research develops road design strategies to improve resilience against climate challenges like landslides and rainfall in Nepal’s hilly terrains. Using geotechnical analysis, hydrological modeling, and tools like GIS and GeoStudio, the study aims to propose design modifications and risk mitigation strategies for safer, more durable roads.</p>
+                    <a href="#" class="see-more">See More</a>
+                </div>
+                <div class="research-card">
+                    <img src="images/coming-soon.jpg" alt="Seismic Retrofitting">
+                    <h3 align="center">Seismic Retrofitting of an Existing Building</h3>
+                    <p>Seismic retrofitting strengthens existing buildings to improve earthquake resistance, enhance safety, and reduce damage. Key techniques include shear walls, steel bracing, base isolation, and column jacketing. A thorough assessment identifies vulnerabilities, followed by targeted retrofitting to meet modern seismic standards and extend building life.</p>
+                    <a href="#" class="see-more">See More</a>
+                </div>
+                <div class="research-card">
+                    <img src="images/coming-soon.jpg" alt="Soil Testing">
+                    <h3 align="center">Soil Testing and Foundation Design Analysis</h3>
+                    <p>Conducted comprehensive soil testing and site analysis to design an optimized foundation system, ensuring structural stability and suitability for varying soil conditions. Utilized geotechnical principles and engineering software for accurate foundation design recommendations.</p>
+                    <a href="#" class="see-more">See More</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Skills</h2>
+            <div class="skills-container">
+                <div class="skill">
+                    <span class="skill-name">AUTOCAD</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="90%"></div></div>
+                </div>
+                <div class="skill">
+                    <span class="skill-name">SKETCH-UP</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="85%"></div></div>
+                </div>
+                <div class="skill">
+                    <span class="skill-name">ETABS</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="80%"></div></div>
+                </div>
+                <div class="skill">
+                    <span class="skill-name">MS OFFICE</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="95%"></div></div>
+                </div>
+                <div class="skill">
+                    <span class="skill-name">WEB DEVELOPMENT</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="70%"></div></div>
+                </div>
+                <div class="skill">
+                    <span class="skill-name">C</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="75%"></div></div>
+                </div>
+                <div class="skill">
+                    <span class="skill-name">C++</span>
+                    <div class="skill-bar"><div class="skill-level" data-level="70%"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <h2>Testimonials</h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <div class="testimonial-img"><img src="images/maheshsir.jpg" alt="Er. Mahesh Bhattarai"></div>
+                    <h3 align=""center>Er. Mahesh Bhattarai</h3>
+                    <p class="position">Assistant Professor, H.O.D - Civil Engineering, Madan Bhandari Memorial Academy Nepal</p>
+                    <p class="quote">"I am pleased to recommend Mr. Sangam Thapa, a dedicated and intelligent student of the Civil Engineering Department at Madan Bhandari Memorial Academy Nepal. He consistently demonstrated strong academic performance, practical problem-solving abilities, and a proactive attitude. Sangam stood out for his leadership in group projects and his excellent communication skills. His enthusiasm for civil engineering, combined with his discipline and professionalism, make him a valuable asset in any academic or professional setting. I strongly support his pursuit of future opportunities and am confident he will excel."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-img"><img src="images/rajuansari.jpg" alt="Er. Raju Ansari"></div>
+                    <h3 align="center">Er. Raju Ansari</h3>
+                    <p class="position">Assistant Professor, Civil Engineering, Madan Bhandari Memorial Academy Nepal</p>
+                    <p class="quote">"It is a pleasure to recommend Mr. Sangam Thapa, a bright and dedicated student from my Civil Engineering course at Madan Bhandari Memorial Academy Nepal. Sangam consistently displayed strong technical proficiency, a deep understanding of structural concepts, and an impressive ability to apply them effectively in both individual and group projects. His collaborative mindset, clear communication, and active participation in class made him a valuable presence among his peers. Driven by curiosity and a genuine passion for civil engineering, Sangam is well-prepared to take on new challenges. I confidently endorse him for any academic or professional opportunity he chooses to pursue."</p>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-img"><img src="images/chakra.jpg" alt="Er. Chakra Bhandari"></div>
+                    <h3 align=""center>Er. Chakra Bhandari</h3>
+                    <p class="position">Assistant Professor, Geotechnical Engineering, Madan Bhandari Memorial Academy Nepal</p>
+                    <p class="quote">"I highly recommend Sangam Thapa, an outstanding student in my Geotechnical Engineering course and research team at Madan Bhandari Memorial Academy Nepal. Sangam has consistently demonstrated excellent analytical skills, keen attention to detail, and an impressive ability to solve complex problems. During our research on soil-structure interaction, he stood out with his deep understanding of the subject and innovative approach to challenges. Sangam is a quick learner, a reliable team player, and an effective communicator. I have full confidence that Sangam will achieve great success in his future endeavors, and I wholeheartedly endorse him for any opportunities that come his way."</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Me</h2>
+            <form class="contact-form">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="text" placeholder="Subject" required>
+                <textarea placeholder="Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+
+        <footer>
+            <div class="contact-info">
+                <p style="text-align: center;"><i class="fas fa-map-marker-alt"></i> Miklajung, Morang, Nepal</p>
+                <p style="text-align: center;"><i class="fas fa-phone"></i> +977 9800945736</p>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/sangamcheetri" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                <a href="mailto:sangamcheetri890@gmail.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+                <a href="https://www.instagram.com/saangam_chhetri/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/sangamcheetri07" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://wa.me/9800945736" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p style="text-align: center;">© 2025 Sangam Thapa. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

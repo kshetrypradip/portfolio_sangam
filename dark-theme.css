@@ -1,0 +1,82 @@
+body.dark {
+    background: #2D1B4E !important;
+    color: #F3F4F6 !important;
+}
+
+body.dark .sidebar {
+    background: #3C1A7D !important;
+}
+
+body.dark section {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)) !important;
+}
+
+body.dark .academic-card,
+body.dark .project-card,
+body.dark .research-card,
+body.dark .testimonial-card,
+body.dark .about-content,
+body.dark .contact-form {
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(10px);
+    color: #F3F4F6 !important;
+}
+
+body.dark .academic-icon,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark p,
+body.dark a {
+    color: #F3F4F6 !important;
+}
+
+body.dark .see-more {
+    color: var(--accent) !important;
+}
+
+body.dark .see-more:hover {
+    color: var(--hover) !important;
+}
+
+body.dark input,
+body.dark textarea {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #F3F4F6 !important;
+    border: none !important;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+    color: #9CA3AF !important;
+}
+
+body.dark button {
+    background: var(--accent) !important;
+    color: #F3F4F6 !important;
+}
+
+body.dark button:hover {
+    background: var(--hover) !important;
+}
+
+body.dark footer {
+    background: #3C1A7D !important;
+}
+
+body.dark .resume-btn {
+    background: var(--accent) !important;
+    color: #F3F4F6 !important;
+}
+
+body.dark .resume-btn:hover {
+    background: var(--hover) !important;
+}
+
+body.dark .skill-bar {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark .skill-level {
+    background: var(--accent) !important;
+}
